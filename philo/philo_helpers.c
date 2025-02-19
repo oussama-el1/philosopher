@@ -6,12 +6,11 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 18:04:44 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:39:44 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 20:12:54 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 int	init_philos(t_philo_args *args)
 {
@@ -26,7 +25,6 @@ int	init_philos(t_philo_args *args)
 		free(args->philos);
 		return (-1);
 	}
-	pthread_mutex_init(&args->print_mutex, NULL);
 	i = 0;
 	while (i < args->number_of_philosophers)
 	{
@@ -39,6 +37,8 @@ int	init_philos(t_philo_args *args)
 		pthread_mutex_init(&args->forks[i].mutex, NULL);
 		i++;
 	}
+	pthread_mutex_init(&args->print_mutex, NULL);
+	pthread_mutex_init(&args->forks_mutex, NULL);
 	return (0);
 }
 

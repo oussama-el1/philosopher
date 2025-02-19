@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:54:09 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:44:26 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 20:12:11 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_philo_args
 	t_philo			*philos;
 	t_fork			*forks;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	sim_mutex;
+	pthread_mutex_t forks_mutex;
 }   t_philo_args;
 
 
@@ -65,7 +65,7 @@ void		put_down_forks(t_philo *philo);
 void		cleanup(t_philo_args *args);
 
 // init function
-int	init_philos(t_philo_args *args);
+int		init_philos(t_philo_args *args);
 void	init_threads(t_philo_args *args);
 
 // routine

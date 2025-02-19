@@ -6,13 +6,13 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:16:20 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:44:12 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:56:04 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int set_args(t_philo_args *args, int ac, char **av)
+int	set_args(t_philo_args *args, int ac, char **av)
 {
 	if (!is_valid_number(av[1]) || !is_valid_number(av[2]) ||
 		!is_valid_number(av[3]) || !is_valid_number(av[4]) ||
@@ -52,7 +52,7 @@ int set_args(t_philo_args *args, int ac, char **av)
 	return (1);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_philo_args	args;
 
@@ -72,5 +72,6 @@ int main(int ac, char **av)
         return (1);
     }
 	init_threads(&args);
+	cleanup(&args);
 	return (0);
 }

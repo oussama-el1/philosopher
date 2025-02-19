@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:21:47 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:25:20 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 20:15:13 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ long long	get_time(void)
 
 void	pick_up_forks(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->args->forks_mutex);
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
@@ -42,11 +43,11 @@ void	pick_up_forks(t_philo *philo)
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		print_status(philo, "has taken a fork");
 	}
+	pthread_mutex_unlock(&philo->args->forks_mutex);
 }
 
 void	put_down_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->left_fork->mutex);
 	pthread_mutex_unlock(&philo->right_fork->mutex);
-	print_status(philo, "has put down forks");
 }

@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:16:20 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:14:28 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:44:12 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int set_args(t_philo_args *args, int ac, char **av)
 	}
 	else
 		args->min_must_eat = -1;
-
+	args->simulation_running = 1;
+	args->philos = NULL;
+	args->forks = NULL;
 	return (1);
 }
 

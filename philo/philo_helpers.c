@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 18:04:44 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:13:45 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:39:44 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	init_threads(t_philo_args *args)
 	pthread_t	monitor;
 
 	i = 0;
+	args->start_time = get_time();
 	while (i < args->number_of_philosophers)
 	{
 		pthread_create(&args->philos[i].thread, NULL, philosopher_routine, &args->philos[i]);
@@ -58,7 +59,7 @@ void	init_threads(t_philo_args *args)
 	while (i < args->number_of_philosophers)
 	{
 		pthread_join(args->philos[i].thread, NULL);
-		i++;	
+		i++;
 	}
 	pthread_join(monitor, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:06:40 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:28:12 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:43:39 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	*philosopher_routine(void *arg)
 		think(philo);
 		eat(philo);
 		sleep_philo(philo);
-
 		if (args->min_must_eat > 0 && philo->meals_eaten >= args->min_must_eat)
-			break;
+			break ;
 	}
 	return NULL;
 }
@@ -32,26 +31,36 @@ void	*philosopher_routine(void *arg)
 void	*monitor_routine(void *arg)
 {
 	int	i;
-    t_philo_args *args = (t_philo_args *)arg;
-    
-    while (1)
-    {
+	int	full_philos_count;
+	
+	t_philo_args *args = (t_philo_args *)arg;
+	
+	while (1)
+	{
 		i = 0;
-        while (i < args->number_of_philosophers)
-        {
-            pthread_mutex_lock(&args->print_mutex);
-            if (get_time() - args->philos[i].last_meal_time > args->time_to_die)
-            {
-                print_status(&args->philos[i], "died");
-                args->simulation_running = 0;
-                pthread_mutex_unlock(&args->print_mutex);
-                return NULL;
-            }
-            pthread_mutex_unlock(&args->print_mutex);
+		full_philos_count = 0;
+		while (i < args->number_of_philosophers)
+		{
+			pthread_mutex_lock(&args->print_mutex);
+			if (args->philos[i].meals_eaten >= args->min_must_eat)
+				full_philos_count++;
+			if (get_time() - args->philos[i].last_meal_time > args->time_to_die)
+			{
+				print_status(&args->philos[i], "died");
+				args->simulation_running = 0;
+				pthread_mutex_unlock(&args->print_mutex);
+				return NULL;
+			}
+			pthread_mutex_unlock(&args->print_mutex);
 			i++;
-        }
-        usleep(1000);
-    }
-    return NULL;
+		}
+		if (full_philos_count == args->number_of_philosophers)
+		{
+			args->simulation_running = 0;
+			pthread_mutex_unlock(&args->print_mutex);
+			return NULL;
+		}
+		usleep(1000);
+	}
+	return NULL;
 }
-

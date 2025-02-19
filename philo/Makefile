@@ -1,7 +1,11 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c \
-	   helpers.c
+	   helpers.c \
+	   helpers2.c \
+	   philo_helpers.c \
+	   routine_helpers.c \
+	   routine.c
 OBJS = $(SRCS:.c=.o)
 HEADER = philo.h
 NAME = philo

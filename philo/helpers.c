@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 16:18:40 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/18 17:44:09 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:16:36 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,19 @@ int is_valid_number(const char *str)
 		i++;
 	}
 	return (1);
+}
+
+void	cleanup(t_philo_args *args)
+{
+	int	i;
+
+	i = 0;
+    while (i < args->number_of_philosophers)
+	{
+        pthread_mutex_destroy(&args->forks[i].mutex);
+		i++;
+	}
+    pthread_mutex_destroy(&args->print_mutex);
+    free(args->philos);
+    free(args->forks);
 }

@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:16:20 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:03:21 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:14:28 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ int main(int ac, char **av)
         printf("Error : init philos\n");
         return (1);
     }
+	init_threads(&args);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:54:09 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 20:12:11 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:13:22 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 	int			id;
 	pthread_t	thread;
 	int			meals_eaten;
+	long long	born_at;
 	long long	last_meal_time;
 	t_fork		*left_fork;
 	t_fork		*right_fork;
@@ -46,12 +47,12 @@ typedef struct s_philo_args
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				min_must_eat;
-	long long		start_time;
 	int				simulation_running;
 	t_philo			*philos;
 	t_fork			*forks;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t forks_mutex;
+	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	sim_mutex;
 }   t_philo_args;
 
 

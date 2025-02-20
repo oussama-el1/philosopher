@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:16:20 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 19:56:04 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:57:36 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ int	main(int ac, char **av)
 		printf("Invalid arguments provided.\n");
 		return (1);
 	}
-    if (init_philos(&args) == -1)
-    {
-        printf("Error : init philos\n");
-        return (1);
-    }
+	if (init_philos(&args) == -1)
+	{
+		printf("Error : init philos\n");
+		return (1);
+	}
 	init_threads(&args);
 	cleanup(&args);
 	return (0);

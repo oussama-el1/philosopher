@@ -6,7 +6,7 @@
 /*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 18:04:44 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/19 20:12:54 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:13:41 by oel-hadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	init_philos(t_philo_args *args)
 		i++;
 	}
 	pthread_mutex_init(&args->print_mutex, NULL);
-	pthread_mutex_init(&args->forks_mutex, NULL);
+	pthread_mutex_init(&args->meal_mutex, NULL);
+	pthread_mutex_init(&args->sim_mutex, NULL);
 	return (0);
 }
 
@@ -48,10 +49,11 @@ void	init_threads(t_philo_args *args)
 	pthread_t	monitor;
 
 	i = 0;
-	args->start_time = get_time();
 	while (i < args->number_of_philosophers)
 	{
-		pthread_create(&args->philos[i].thread, NULL, philosopher_routine, &args->philos[i]);
+		args->philos[i].born_at = get_time();
+		if (pthread_create(&args->philos[i].thread, NULL, philosopher_routine, &args->philos[i]) != 0)
+			cleanup(args);
 		i++;
 	}
 	pthread_create(&monitor, NULL, monitor_routine, args);

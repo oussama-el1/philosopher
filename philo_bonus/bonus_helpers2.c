@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bonus_helpers2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:49:38 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/03/18 11:26:05 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:18:30 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ void	print_status(t_philo *philo, char *status)
 
 void	cleanup(char *message, t_philo_args *args)
 {
-	int	i;
-
-	i = 0;
 	if (message)
 	{
 		write(2, message, ft_strlen(message));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:01:44 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/03/18 11:11:49 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/03/30 20:53:12 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <semaphore.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 
 struct	s_philo_args;
 

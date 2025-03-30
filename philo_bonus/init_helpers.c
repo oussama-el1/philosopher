@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:32:24 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/03/18 11:27:10 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:32:23 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ int	init_semaphores(t_philo_args *args)
 	args->print_sem = sem_open("/print", O_CREAT, 0644, 1);
 	args->dead_sem = sem_open("/dead", O_CREAT, 0644, 1);
 	args->meal_sem = sem_open("/meal", O_CREAT, 0644, 1);
-	printf("forks: %p\n", args->forks);
-	printf("print: %p\n", args->print_sem);
-	printf("dead: %p\n", args->dead_sem);
-	printf("meal: %p\n", args->meal_sem);
 	if (args->forks == SEM_FAILED || args->print_sem == SEM_FAILED || args->dead_sem == SEM_FAILED || args->meal_sem == SEM_FAILED)
 	{
 		cleanup("Error creating semaphores", args);
@@ -59,8 +55,8 @@ int	monitor_handler(t_philo_args *args)
 	}
 	else if (monitor_pid == 0)
 	{
-		// monitor_routine();
-		exit(0);	
+		monitor_routine(args);
+		exit(0);
 	}
 	if (waitpid(monitor_pid, NULL, 0) == -1)
 		return (-1);
@@ -71,7 +67,6 @@ int	create_process(t_philo_args *args)
 {
 	int		i;
 	pid_t	pid;
-	pid_t	monitor_pid;
 
 	i = 0;
 	while (i < args->number_of_philosophers)
@@ -91,7 +86,8 @@ int	create_process(t_philo_args *args)
 		args->philos[i].pid = pid;
 		i++;
 	}
-	monitor_pid = fork();
+	if (monitor_handler(args) < 0)
+		return (-1);
 	return (wait_for_childs(args));
 }
 

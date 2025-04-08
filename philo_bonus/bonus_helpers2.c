@@ -6,13 +6,13 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:49:38 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/03/30 21:18:30 by oussama          ###   ########.fr       */
+/*   Updated: 2025/03/30 21:57:32 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	get_time(void)
+long int	get_time(void)
 {
 	struct timeval	tv;
 
@@ -22,7 +22,7 @@ int	get_time(void)
 
 void	ft_usleep(int msecond)
 {
-	int	now;
+	long int	now;
 
 	now = get_time();
 	while (get_time() - now < msecond)
@@ -44,7 +44,7 @@ void	print_status(t_philo *philo, char *status)
 	if (!running)
 		return ;
 	sem_wait(philo->args->print_sem);
-	printf("%d %d %s\n", get_time() - philo->born_at, philo->id, status);
+	printf("%ld %d %s\n", get_time() - philo->born_at, philo->id, status);
 	sem_post(philo->args->print_sem);
 }
 

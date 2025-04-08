@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 19:06:40 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/26 14:37:36 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/03/30 22:11:39 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,9 @@ void	*one_philo_case(t_philo *philo)
 void	*philosopher_routine(void *arg)
 {
 	t_philo			*philo;
-	t_philo_args	*args;
 	int				running;
 
 	philo = (t_philo *)arg;
-	args = philo->args;
-	if (philo->args->number_of_philosophers == 1)
-		return (one_philo_case(philo));
 	if (philo->id % 2 == 1)
 		ft_usleep(1);
 	while (1)

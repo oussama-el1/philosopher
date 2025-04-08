@@ -6,7 +6,7 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:32:24 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/03/30 21:32:23 by oussama          ###   ########.fr       */
+/*   Updated: 2025/04/08 23:48:54 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	init_semaphores(t_philo_args *args)
 	args->forks = sem_open("/forks", O_CREAT, 0644, args->number_of_philosophers);
 	args->print_sem = sem_open("/print", O_CREAT, 0644, 1);
 	args->dead_sem = sem_open("/dead", O_CREAT, 0644, 1);
-	args->meal_sem = sem_open("/meal", O_CREAT, 0644, 1);
 	if (args->forks == SEM_FAILED || args->print_sem == SEM_FAILED || args->dead_sem == SEM_FAILED || args->meal_sem == SEM_FAILED)
 	{
 		cleanup("Error creating semaphores", args);
@@ -63,7 +62,7 @@ int	monitor_handler(t_philo_args *args)
 	return (1);
 }
 
-int	create_process(t_philo_args *args)
+void	create_process(t_philo_args *args)
 {
 	int		i;
 	pid_t	pid;
@@ -71,29 +70,41 @@ int	create_process(t_philo_args *args)
 	i = 0;
 	while (i < args->number_of_philosophers)
 	{
-		pid = fork();
-		args->philos[i].born_at = get_time();
-		if (pid == 0)
-		{
-			philosopher_routine(&args->philos[i]);
-			exit(0);
-		}
-		else if (pid < -1)
-		{
-			cleanup("Error forking Process", args);
-			return (-1);
-		}
-		args->philos[i].pid = pid;
-		i++;
+		args->philos[i].pid = fork();
+		if (args->philos[i].pid == 0)
+			return (philosopher_routine(&args->philos[i]));
+		else if (args->philos[i].pid < 0)
+			cleanup("Error creating process", args);
 	}
-	if (monitor_handler(args) < 0)
-		return (-1);
-	return (wait_for_childs(args));
+	if (pthread_create(&(args->monitor_thread), NULL,
+		monitor_routine, args->philos) != 0)
+		cleanup("Error creating monitor thread", args);
+}
+
+void init_philos_helper(t_philo_args *args, int i)
+{
+	char	*sem_name;
+
+	args->philos[i].id = i + 1;
+	args->philos[i].meals_eaten = 0;
+	args->philos[i].last_meal_time = 0;
+	args->philos[i].args = args;
+	sem_name = ft_itoa(i + 1);
+	if (!sem_name)
+		cleanup("Error allocating memory", args);
+	args->philos[i].meal_sem = sem_open(sem_name, O_CREAT, 0644, 1);
+	if (args->philos[i].meal_sem == SEM_FAILED)
+	{
+		free(sem_name);
+		cleanup("Error creating semaphores", args);
+	}
+	free(sem_name);
 }
 
 int	init_philos(t_philo_args *args)
 {
 	int	i;
+	char *sem_name;
 
 	args->philos = (t_philo *)malloc(sizeof(t_philo) * args->number_of_philosophers);
 	if (!args->philos)
@@ -104,10 +115,7 @@ int	init_philos(t_philo_args *args)
 	i = 0;
 	while (i < args->number_of_philosophers)
 	{
-		args->philos[i].args = args;
-		args->philos[i].id = i + 1;
-		args->philos[i].meals_eaten = 0;
-		args->philos[i].last_meal_time = get_time();
+		init_philos_helper(args, i);
 		i++;
 	}
 	return (1);

@@ -6,46 +6,40 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:08:04 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/03/30 20:56:07 by oussama          ###   ########.fr       */
+/*   Updated: 2025/04/09 00:15:10 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	*one_philo_case(t_philo *philo)
-{
-	sem_wait(philo->args->forks);
-	print_status(philo, "has taken a fork");
-	ft_usleep(philo->args->time_to_die);
-	sem_post(philo->args->forks);
-	return (NULL);
-}
-
 void	*philosopher_routine(void *arg)
 {
-	t_philo			*philo;
-	int				running;
+	pthread_t	death_thread;
+	t_philo		*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->args->number_of_philosophers == 1)
-		return (one_philo_case(philo));
-	if (philo->id % 2 == 1)
-		ft_usleep(1);
+	pthread_create(&death_thread, NULL, monitor_routine, philo);
+	if (philo
+		ft_usleep(philO->params->time_to_eat);
 	while (1)
 	{
-		set_running_status(&running, philo);
-		eat(philo);
-		set_running_status(&running, philo);
-		if (!running)
+		if (philO->meal_count >= philO->params->meal_max
+			&& philO->params->meal_max > 0)
 			break ;
-		print_status(philo, "is sleeping");
-		ft_usleep(philo->args->time_to_sleep);
-		set_running_status(&running, philo);
-		if (!running)
-			break ;
-		print_status(philo, "is thinking");
+		take_fork(philO);
+		take_fork(philO);
+		write_state("is eating", philO);
+		ft_usleep(philO->params->time_to_eat);
+		philO->meal_count++;
+		sem_wait(philO->sem_last_meal);
+		philO->last_meal = get_timestamp() - philO->params->start_time;
+		sem_post(philO->sem_last_meal);
+		release_forks_and_sleep(philO);
+		ft_usleep((philO->params->time_to_die - philO->params->time_to_eat
+				- philO->params->time_to_sleep) / 2);
 	}
-	return (NULL);
+	sem_post(phil->params->finished);
+	return (1);
 }
 
 void	*monitor_routine(void *arg)

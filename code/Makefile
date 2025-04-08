@@ -1,15 +1,17 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g
-SRCS = main.c \
-	   helpers.c \
-	   helpers2.c \
-	   philo_helpers.c \
-	   routine_helpers.c \
-	   routine.c \
+CFLAGS = -Wall -Wextra -Werror
+SRCS = death.c \
+       forks.c \
+	   ft_atoi.c \
+	   ft_itoa.c \
+	   ft_strjoin.c \
+	   init.c \
+	   main.c \
+	   process.c \
 	   utils.c
 OBJS = $(SRCS:.c=.o)
-HEADER = philo.h
-NAME = philo
+HEADER = philo_bonus.h
+NAME = philo_bonus
 
 all: $(NAME)
 

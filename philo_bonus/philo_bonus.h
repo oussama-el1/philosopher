@@ -6,7 +6,7 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:01:44 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/03/30 20:53:12 by oussama          ###   ########.fr       */
+/*   Updated: 2025/04/08 23:43:36 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ typedef struct s_philo
 	int					id;
 	pid_t				pid;
 	int					meals_eaten;
-	int					born_at;
+	long int			born_at;
 	int					last_meal_time;
 	struct s_philo_args	*args;
+	sem_t				*meal_sem;
 }	t_philo;
 
 typedef struct s_philo_args
@@ -50,33 +51,32 @@ typedef struct s_philo_args
 	sem_t			*forks;
 	sem_t			*print_sem;
 	sem_t			*dead_sem;
-	sem_t			*meal_sem;
+	pthread_t		monitor_thread;
 }	t_philo_args;
 
-int		ft_atoi(const char *str);
-int		is_valid_number(const char *str);
-int		ft_strlen(char *s);
-int		get_time(void);
-void	set_running_status(int *running, t_philo *philo);
-void	print_status(t_philo *philo, char *status);
-void	ft_usleep(int msecond);
-void	cleanup(char *message, t_philo_args *args);
+int			ft_atoi(const char *str);
+int			is_valid_number(const char *str);
+int			ft_strlen(char *s);
+long int	get_time(void);
+void		set_running_status(int *running, t_philo *philo);
+void		print_status(t_philo *philo, char *status);
+void		ft_usleep(int msecond);
+void		cleanup(char *message, t_philo_args *args);
 
 
 // init functions
-int		init_semaphores(t_philo_args *args);
-int		init_philos(t_philo_args *args);
-int		create_process(t_philo_args *args);
+int			init_semaphores(t_philo_args *args);
+int			init_philos(t_philo_args *args);
+int			create_process(t_philo_args *args);
 
 // routines
-void	pick_up_forks(t_philo *philo);
-void	put_down_forks(t_philo *philo);
-int		is_all_full(t_philo_args *args);
-int		is_dead(t_philo_args *args, t_philo *philo);
-int		is_all_alive(t_philo_args *args);
-void	eat(t_philo *philo);
-void	*philosopher_routine(void *arg);
-void	*monitor_routine(void *arg);
-
+void		pick_up_forks(t_philo *philo);
+void		put_down_forks(t_philo *philo);
+int			is_all_full(t_philo_args *args);
+int			is_dead(t_philo_args *args, t_philo *philo);
+int			is_all_alive(t_philo_args *args);
+void		eat(t_philo *philo);
+void		*philosopher_routine(void *arg);
+void		*monitor_routine(void *arg);
 
 #endif

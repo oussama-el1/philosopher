@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-hadr <oel-hadr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:21:12 by oel-hadr          #+#    #+#             */
-/*   Updated: 2025/02/26 20:37:36 by oel-hadr         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:42:13 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	is_dead(t_philo_args *args, t_philo *philo)
 {
 	int	dead;
 
-	// pthread_mutex_lock(&args->meal_mutex);
+	// sem_wait(args->meal_sem);
 	dead = (get_time() - philo->last_meal_time > args->time_to_die);
-	// pthread_mutex_unlock(&args->meal_mutex);
+	// sem_post(args->meal_sem);
 	return (dead);
 }
 
